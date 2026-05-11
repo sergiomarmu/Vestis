@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.vestis.feature.favorites.presentation.FavoritesScreen
-import com.vestis.feature.products.presentation.ProductsScreen
+import com.vestis.feature.products.presentation.list.ProductListScreen
 import com.vestis.feature.profile.presentation.ProfileScreen
 
 @Composable
@@ -23,7 +23,7 @@ fun AppNavHost(
         Destination.entries.forEach { destination ->
             composable(destination.route) {
                 when (destination) {
-                    Destination.PRODUCTS -> ProductsScreen()
+                    Destination.PRODUCTS -> ProductListScreen()
                     Destination.FAVORITES -> FavoritesScreen()
                     Destination.PROFILE -> ProfileScreen()
                 }

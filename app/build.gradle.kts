@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -42,9 +44,15 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:core-presentation"))
+
     implementation(project(":feature:feature-products"))
     implementation(project(":feature:feature-favorites"))
     implementation(project(":feature:feature-profile"))
+
+    implementation(project(":data:data-products"))
+    implementation(project(":data:data-favorites"))
+    implementation(project(":data:data-profile"))
 
     // Core Android Dependencies
     implementation(libs.androidx.core.ktx)
@@ -58,4 +66,8 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.compose.material.icons.core)
+
+    // Di
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 }
