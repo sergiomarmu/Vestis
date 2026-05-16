@@ -54,7 +54,7 @@ fun ProductListEmptyComponent(
 
 @Preview
 @Composable
-fun ProductListEmptyComponentPreview() {
+private fun ProductListEmptyComponentPreview() {
     ProductListEmptyComponent(
         onIntent = {}
     )

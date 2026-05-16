@@ -48,7 +48,7 @@ class ProductDaoTest {
                 title = "Shirt",
                 price = 22.3f,
                 description = "",
-                image = "",
+                imageUrl = "",
                 category = "men's clothing"
             ),
             ProductEntity(
@@ -56,7 +56,7 @@ class ProductDaoTest {
                 title = "Jacket",
                 price = 55.9f,
                 description = "",
-                image = "",
+                imageUrl = "",
                 category = "women's clothing"
             ),
         )
@@ -85,7 +85,7 @@ class ProductDaoTest {
             title = "Shirt",
             price = 22.3f,
             description = "",
-            image = "",
+            imageUrl = "",
             category = "men's clothing"
         )
 

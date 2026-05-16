@@ -54,6 +54,7 @@ private fun ProductListContent(
 
         is ProductListState.Success -> ProductListSuccessComponent(
             products = state.products,
+            onIntent = { onIntent(it) },
             modifier = modifier,
         )
     }

@@ -4,12 +4,16 @@ package com.vestis.feature.products
 
 import app.cash.turbine.test
 import com.vestis.core.domain.DomainException
+import com.vestis.domain.favorite.usecase.ToggleFavoriteUseCase
 import com.vestis.domain.products.model.ProductModel
 import com.vestis.domain.products.usecase.GetProductsFlowUseCase
+import com.vestis.feature.products.presentation.list.ProductListEffect
 import com.vestis.feature.products.presentation.list.ProductListIntent
 import com.vestis.feature.products.presentation.list.ProductListState
 import com.vestis.feature.products.presentation.list.ProductListViewModel
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
@@ -18,6 +22,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -32,6 +37,9 @@ class ProductListViewModelTest {
     @MockK
     private lateinit var getProductsFlowUseCase: GetProductsFlowUseCase
 
+    @MockK
+    private lateinit var toggleFavoriteUseCase: ToggleFavoriteUseCase
+
     private val testDispatcher = StandardTestDispatcher()
 
     @Before
@@ -41,7 +49,8 @@ class ProductListViewModelTest {
         Dispatchers.setMain(testDispatcher)
 
         sut = ProductListViewModel(
-            getProductsFlowUseCase = getProductsFlowUseCase
+            getProductsFlowUseCase = getProductsFlowUseCase,
+            toggleFavoriteUseCase = toggleFavoriteUseCase
         )
     }
 
@@ -162,6 +171,44 @@ class ProductListViewModelTest {
                 // Then
                 assert(awaitItem() == ProductListState.Loading)
                 assert(awaitItem() is ProductListState.Error)
+            }
+        }
+
+    @Test
+    fun `GIVEN a product ID WHEN toggle favorite intent is executed THEN call use case`() =
+        runTest {
+            // Given
+            val productId = 1
+
+            coEvery { toggleFavoriteUseCase.invoke(productId) } returns Unit
+
+            // When
+            sut.handleIntent(ProductListIntent.ToggleFavorite(productId))
+
+            advanceUntilIdle()
+
+            // Then
+            coVerify(exactly = 1) { toggleFavoriteUseCase.invoke(productId) }
+        }
+
+    @Test
+    fun `GIVEN toggle favorite failure WHEN toggle favorite intent is executed THEN send error effect`() =
+        runTest {
+            // Given
+            val productId = 1
+            val errorMessage = "Toggle failed"
+
+            coEvery { toggleFavoriteUseCase.invoke(productId) } throws Exception(errorMessage)
+
+            sut.uiEffect.test {
+                // When
+                sut.handleIntent(ProductListIntent.ToggleFavorite(productId))
+
+                // Then
+                val effect = awaitItem()
+
+                assert(effect is ProductListEffect.ShowError)
+                assert((effect as ProductListEffect.ShowError).message == errorMessage)
             }
         }
 

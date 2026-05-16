@@ -16,7 +16,7 @@ import com.vestis.data.products.local.entity.ProductEntity
 abstract class ProductRoomDatabase : RoomDatabase() {
     companion object {
         internal const val DATABASE_VERSION = 1
-        private const val DATABASE_NAME = "vestis_db"
+        private const val DATABASE_NAME = "vestis_products_db"
 
         fun createInstance(
             applicationContext: Context,

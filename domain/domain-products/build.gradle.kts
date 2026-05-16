@@ -38,10 +38,18 @@ dependencies {
     implementation(project(":core:core-common"))
     implementation(project(":core:core-domain"))
 
+    implementation(project(":domain:domain-favorite"))
+
     // KotlinX
     implementation(libs.kotlinx.coroutines.android)
 
     // Di
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    // Test
+    testImplementation(libs.turbine)
+    testImplementation(libs.mockk)
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
 }

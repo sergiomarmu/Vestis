@@ -18,11 +18,11 @@ data class ProductEntity(
     val description: String,
     @ColumnInfo(name = "category")
     val category: String,
-    @ColumnInfo(name = "image")
-    val image: String
+    @ColumnInfo(name = "imageUrl")
+    val imageUrl: String
 ) {
     companion object {
-        const val TABLE_NAME = "characters"
+        const val TABLE_NAME = "products"
         const val COLUMN_ID = "id"
     }
 }

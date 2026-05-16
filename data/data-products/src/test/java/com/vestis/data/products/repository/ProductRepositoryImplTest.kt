@@ -32,6 +32,7 @@ class ProductRepositoryImplTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+
         sut = ProductRepositoryImpl(
             productNetworkDataSource = productNetworkDataSource,
             productLocalDataSource = productLocalDataSource
@@ -39,7 +40,7 @@ class ProductRepositoryImplTest {
     }
 
     @Test
-    fun `GIVEN an empty DB WHEN getProducts is executed THEN fetch from network and save them to database`() =
+    fun `GIVEN an empty DB WHEN getProductsFlow is executed THEN fetch from network and save them to database`() =
         runTest {
             // Given
             val networkProducts = listOf(
@@ -67,7 +68,7 @@ class ProductRepositoryImplTest {
             every { productLocalDataSource.observeAll() } returns flowOf(value = emptyList())
 
             // When
-            sut.getProducts(forceNetwork = false).test {
+            sut.getProductsFlow(forceNetwork = false).test {
                 awaitItem()
                 awaitComplete()
             }
@@ -84,14 +85,14 @@ class ProductRepositoryImplTest {
         }
 
     @Test
-    fun `GIVEN a DB with data WHEN getProducts without forceNetwork is executed THEN do not fetch from network`() =
+    fun `GIVEN a DB with data WHEN getProductsFlow without forceNetwork is executed THEN do not fetch from network`() =
         runTest {
             // Given
             coEvery { productLocalDataSource.getCount() } returns 10
             every { productLocalDataSource.observeAll() } returns flowOf(value = emptyList())
 
             // When
-            sut.getProducts(forceNetwork = false).test {
+            sut.getProductsFlow(forceNetwork = false).test {
                 awaitItem()
                 awaitComplete()
             }
@@ -105,7 +106,7 @@ class ProductRepositoryImplTest {
         }
 
     @Test
-    fun `GIVEN a DB with data AND network fails WHEN getProducts with forceNetwork is executed THEN ignore error and show cache data`() =
+    fun `GIVEN a DB with data AND network fails WHEN getProductsFlow with forceNetwork is executed THEN ignore error and show cache data`() =
         runTest {
             // Given
             coEvery { productLocalDataSource.getCount() } returns 5
@@ -113,7 +114,7 @@ class ProductRepositoryImplTest {
             every { productLocalDataSource.observeAll() } returns flowOf(value = emptyList())
 
             // When
-            sut.getProducts(forceNetwork = true).test {
+            sut.getProductsFlow(forceNetwork = true).test {
                 awaitItem()
                 awaitComplete()
             }
@@ -134,7 +135,7 @@ class ProductRepositoryImplTest {
         }
 
     @Test
-    fun `GIVEN an empty DB AND network fails WHEN getProducts is executed THEN throw exception`() =
+    fun `GIVEN an empty DB AND network fails WHEN getProductsFlow is executed THEN throw exception`() =
         runTest {
             // Given
             coEvery { productLocalDataSource.getCount() } returns 0
@@ -142,7 +143,7 @@ class ProductRepositoryImplTest {
             every { productLocalDataSource.observeAll() } returns flowOf(value = emptyList())
 
             // When | Then
-            sut.getProducts(forceNetwork = false).test {
+            sut.getProductsFlow(forceNetwork = false).test {
                 val exception = awaitError()
 
                 assert(exception is DomainException.Network.NoConnection)

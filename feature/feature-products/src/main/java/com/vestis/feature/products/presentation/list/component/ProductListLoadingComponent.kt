@@ -22,6 +22,6 @@ fun ProductListLoadingComponent(
 
 @Preview
 @Composable
-fun ProductListLoadingComponentPreview() {
+private fun ProductListLoadingComponentPreview() {
     ProductListLoadingComponent()
 }

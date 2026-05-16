@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -56,7 +55,7 @@ fun ProductListErrorComponent(
 
 @Preview
 @Composable
-fun ProductListErrorComponentPreview() {
+private fun ProductListErrorComponentPreview() {
     ProductListErrorComponent(
         message = "Error",
         onIntent = {}

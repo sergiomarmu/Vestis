@@ -4,7 +4,7 @@ import com.vestis.domain.products.model.ProductModel
 import kotlinx.coroutines.flow.Flow
 
 interface ProductRepository {
-    fun getProducts(
+    fun getProductsFlow(
         forceNetwork: Boolean = false
     ): Flow<List<ProductModel>>
 }

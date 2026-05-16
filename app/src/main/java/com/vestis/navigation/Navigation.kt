@@ -9,10 +9,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 
 @Composable
@@ -22,7 +21,10 @@ fun AppNavigationBar(
     val navController = rememberNavController()
     val startDestination = Destination.PRODUCTS
 
-    var currentDestination by rememberSaveable { mutableIntStateOf(value = startDestination.ordinal) }
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry
+        ?.destination
+        ?.route
 
     Scaffold(
         modifier = modifier,
@@ -31,13 +33,24 @@ fun AppNavigationBar(
                 windowInsets = NavigationBarDefaults.windowInsets
             ) {
                 Destination.entries
-                    .forEachIndexed { index, destination ->
-                        NavigationBarItem(
-                            selected = currentDestination == index,
-                            onClick = {
-                                navController.navigate(route = destination.route)
+                    .forEach { destination ->
 
-                                currentDestination = index
+                        val isSelected = currentDestination == destination.route
+
+                        NavigationBarItem(
+                            selected = isSelected,
+                            onClick = {
+                                if (currentDestination != destination.route) {
+                                    navController.navigate(route = destination.route) {
+                                        popUpTo(
+                                            id = navController.graph.findStartDestination().id
+                                        ) { saveState = true }
+
+                                        launchSingleTop = true
+
+                                        restoreState = true
+                                    }
+                                }
                             },
                             icon = {
                                 Icon(

@@ -44,7 +44,9 @@ dependencies {
     implementation(project(":core:core-common"))
     implementation(project(":core:core-presentation"))
     implementation(project(":core:core-domain"))
+
     implementation(project(":domain:domain-products"))
+    implementation(project(":domain:domain-favorite"))
 
     // Compose
     implementation(platform(libs.androidx.compose.bom))

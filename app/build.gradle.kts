@@ -51,7 +51,7 @@ dependencies {
     implementation(project(":feature:feature-profile"))
 
     implementation(project(":data:data-products"))
-    implementation(project(":data:data-favorites"))
+    implementation(project(":data:data-favorite"))
     implementation(project(":data:data-profile"))
 
     // Core Android Dependencies

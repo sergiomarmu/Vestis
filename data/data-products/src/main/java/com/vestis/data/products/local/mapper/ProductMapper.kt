@@ -12,7 +12,8 @@ fun ProductEntity.toDomain() = ProductModel(
     title = this.title,
     price = this.price,
     category = this.category,
-    imageUrl = this.image
+    imageUrl = this.imageUrl
+
 )
 
 fun List<ProductDTO>.toProductEntity() = this
@@ -24,5 +25,5 @@ fun ProductDTO.toProductEntity() = ProductEntity(
     price = this.price,
     description = this.description,
     category = this.category,
-    image = this.image
+    imageUrl = this.image
 )
