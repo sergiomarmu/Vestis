@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface FavoriteRepository {
 
-    fun getFavoriteIdsFlows(): Flow<Set<Int>>
+    fun getFavoriteIdsFlow(): Flow<Set<Int>>
 
     suspend fun toggleFavorite(
         productId: Int

@@ -23,15 +23,15 @@ fun FavoritesListScreen(
         viewModel.handleIntent(intent = FavoriteListIntent.Init)
     }
 
-    ProductListContent(
+    FavoriteListContent(
         state = state,
-        onIntent = { viewModel.handleIntent(it) },
+        onIntent = viewModel::handleIntent,
         modifier = modifier
     )
 }
 
 @Composable
-private fun ProductListContent(
+private fun FavoriteListContent(
     state: FavoriteListState,
     onIntent: (FavoriteListIntent) -> Unit,
     modifier: Modifier = Modifier,

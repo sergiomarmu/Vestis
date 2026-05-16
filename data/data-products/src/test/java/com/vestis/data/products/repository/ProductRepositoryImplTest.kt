@@ -5,7 +5,7 @@ import com.vestis.core.common.either.Either
 import com.vestis.core.data.exception.DataException
 import com.vestis.core.domain.DomainException
 import com.vestis.data.products.local.datasource.ProductLocalDataSource
-import com.vestis.data.products.network.datasources.ProductNetworkDataSource
+import com.vestis.data.products.network.datasource.ProductNetworkDataSource
 import com.vestis.data.products.network.dto.ProductDTO
 import com.vestis.domain.products.repository.ProductRepository
 import io.mockk.MockKAnnotations

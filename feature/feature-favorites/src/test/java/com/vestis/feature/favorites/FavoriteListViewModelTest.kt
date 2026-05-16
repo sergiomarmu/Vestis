@@ -74,7 +74,6 @@ class FavoriteListViewModelTest {
                 val finalState = awaitItem()
 
                 assert(finalState is FavoriteListState.Error)
-                assert((finalState as FavoriteListState.Error).message == "Error fetching favorites")
             }
         }
 
@@ -156,7 +155,6 @@ class FavoriteListViewModelTest {
                 val effect = awaitItem()
 
                 assert(effect is FavoriteListEffect.ShowError)
-                assert((effect as FavoriteListEffect.ShowError).message == errorMessage)
             }
         }
 

@@ -25,10 +25,21 @@ sealed class Either<out L, out R> {
         is Right -> ifRight(this.value)
     }
 
-    inline fun <L, R, nR> Either<L, R>.mapSuccess(
-        transform: (R) -> nR
-    ): Either<L, nR> = when (this) {
-        is Left -> this
-        is Right -> Right(transform(this.value))
-    }
+    fun leftOrNull(): L? = leftOrElse { null }
+
+    fun rightOrNull(): R? = rightOrElse { null }
+
+    inline fun <L> Either<L, *>.leftOrElse(
+        action: () -> L
+    ) = this.fold(
+        ifLeft = { it },
+        ifRight = { action() }
+    )
+
+    inline fun <R> Either<*, R>.rightOrElse(
+        action: () -> R
+    ) = this.fold(
+        ifLeft = { action() },
+        ifRight = { it }
+    )
 }

@@ -38,7 +38,7 @@ import com.vestis.core.presentation.ui.theme.Shapes
 import com.vestis.core.presentation.ui.theme.Surface
 
 @Composable
-fun ProductCard(
+fun ProductCardComponent(
     title: String,
     price: Float,
     category: String,
@@ -173,10 +173,10 @@ private fun ProductCardInfo(
 
 @Preview
 @Composable
-fun ProductCardPreview(
+fun ProductCardComponentPreview(
     @PreviewParameter(provider = ProductListParameterProvider::class) data: ProductCardPreviewData
 ) {
-    ProductCard(
+    ProductCardComponent(
         title = data.title,
         price = data.price,
         category = data.category,

@@ -7,7 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.vestis.feature.products.presentation.list.ProductListScreen
-import com.vestis.feature.profile.presentation.ProfileScreen
+import com.vestis.feature.profile.presentation.profile.ProfileScreen
 
 @Composable
 fun AppNavHost(

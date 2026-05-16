@@ -8,7 +8,7 @@ import javax.inject.Inject
 class FavoriteRepositoryImpl @Inject constructor(
     private val favoriteLocalDataSource: FavoriteLocalDataSource,
 ) : FavoriteRepository {
-    override fun getFavoriteIdsFlows() = favoriteLocalDataSource.observeAll()
+    override fun getFavoriteIdsFlow() = favoriteLocalDataSource.observeAll()
         .map { it.toSet() }
 
     override suspend fun toggleFavorite(

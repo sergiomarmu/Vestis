@@ -12,7 +12,7 @@ class GetFavoriteProductsFlowUseCase @Inject constructor(
     operator fun invoke() = productRepository.getProductsFlow(
         forceNetwork = false
     ).combine(
-        flow = favoriteRepository.getFavoriteIdsFlows()
+        flow = favoriteRepository.getFavoriteIdsFlow()
     ) { products, favIds ->
         products
             .filter { product -> product.id in favIds }

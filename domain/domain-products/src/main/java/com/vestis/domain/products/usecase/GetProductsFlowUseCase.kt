@@ -14,7 +14,7 @@ class GetProductsFlowUseCase @Inject constructor(
     ) = productRepository.getProductsFlow(
         forceNetwork = forceNetwork
     ).combine(
-        flow = favoriteRepository.getFavoriteIdsFlows()
+        flow = favoriteRepository.getFavoriteIdsFlow()
     ) { products, favIds ->
         products.map { product ->
             product.copy(isFavorite = product.id in favIds)

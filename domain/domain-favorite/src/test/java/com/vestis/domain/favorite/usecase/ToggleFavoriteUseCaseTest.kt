@@ -11,10 +11,10 @@ import org.junit.Test
 
 class ToggleFavoriteUseCaseTest {
 
+    private lateinit var sut: ToggleFavoriteUseCase
+
     @MockK
     private lateinit var favoriteRepository: FavoriteRepository
-
-    private lateinit var sut: ToggleFavoriteUseCase
 
     @Before
     fun setUp() {
@@ -26,7 +26,7 @@ class ToggleFavoriteUseCaseTest {
     }
 
     @Test
-    fun `WHEN sut is called THEN call repository toggleFavorite`() = runTest {
+    fun `WHEN sut is called THEN call repository toggleFavorite function`() = runTest {
         // Given
         val productId = 1
 

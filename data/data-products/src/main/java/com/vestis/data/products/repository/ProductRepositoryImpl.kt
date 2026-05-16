@@ -4,15 +4,12 @@ import com.vestis.core.data.exception.toExceptionDomain
 import com.vestis.data.products.local.datasource.ProductLocalDataSource
 import com.vestis.data.products.local.mapper.toDomain
 import com.vestis.data.products.local.mapper.toProductEntity
-import com.vestis.data.products.network.datasources.ProductNetworkDataSource
+import com.vestis.data.products.network.datasource.ProductNetworkDataSource
 import com.vestis.domain.products.model.ProductModel
 import com.vestis.domain.products.repository.ProductRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -49,10 +46,6 @@ class ProductRepositoryImpl @Inject constructor(
                     }
                 )
         }
-
-        // This forces the Loading state to show for both API calls and local DB reads.
-        // Only for development/review purposes.
-        delay(timeMillis = 3_000L)
 
         emitAll(
             productLocalDataSource.observeAll()

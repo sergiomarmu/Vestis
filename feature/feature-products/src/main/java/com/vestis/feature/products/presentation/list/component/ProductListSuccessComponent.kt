@@ -10,10 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.vestis.core.presentation.component.product.ProductCard
+import com.vestis.core.presentation.component.product.ProductCardComponent
+import com.vestis.core.presentation.component.product.parameterprovider.ProductListParameterProvider
 import com.vestis.domain.products.model.ProductModel
 import com.vestis.feature.products.presentation.list.ProductListIntent
-import com.vestis.feature.products.presentation.list.component.parameterprovider.ProductListParameterProvider
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
 
@@ -39,7 +39,7 @@ fun ProductListSuccessComponent(
             key = { it.id },
             contentType = { "product" }
         ) { product ->
-            ProductCard(
+            ProductCardComponent(
                 title = product.title,
                 price = product.price,
                 category = product.category,

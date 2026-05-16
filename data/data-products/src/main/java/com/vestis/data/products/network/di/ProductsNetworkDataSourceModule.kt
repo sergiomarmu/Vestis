@@ -1,7 +1,7 @@
 package com.vestis.data.products.network.di
 
-import com.vestis.data.products.network.datasources.ProductNetworkDataSource
-import com.vestis.data.products.network.datasources.ProductNetworkDataSourceImpl
+import com.vestis.data.products.network.datasource.ProductNetworkDataSource
+import com.vestis.data.products.network.datasource.ProductNetworkDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

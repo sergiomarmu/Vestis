@@ -32,14 +32,14 @@ class FavoriteRepositoryImplTest {
     }
 
     @Test
-    fun `GIVEN a source of IDs WHEN getFavoriteIdsFlows is executed THEN return a flow of sets`() =
+    fun `GIVEN a source of IDs WHEN getFavoriteIdsFlow is executed THEN return a flow of sets`() =
         runTest {
             // Given
             val favoriteIds = listOf(1, 2, 3)
             every { favoriteLocalDataSource.observeAll() } returns flowOf(favoriteIds)
 
             // When
-            sut.getFavoriteIdsFlows().test {
+            sut.getFavoriteIdsFlow().test {
                 val result = awaitItem()
 
                 // Then

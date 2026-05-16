@@ -40,7 +40,7 @@ class GetFavoriteProductsFlowUseCaseTest {
         } returns flowOf(value = emptyList())
 
         every {
-            favoriteRepository.getFavoriteIdsFlows()
+            favoriteRepository.getFavoriteIdsFlow()
         } returns flowOf(value = emptySet())
 
         // When
@@ -83,7 +83,7 @@ class GetFavoriteProductsFlowUseCaseTest {
             } returns flowOf(value = products)
 
             every {
-                favoriteRepository.getFavoriteIdsFlows()
+                favoriteRepository.getFavoriteIdsFlow()
             } returns flowOf(value = favoriteIds)
 
             // When
@@ -117,7 +117,7 @@ class GetFavoriteProductsFlowUseCaseTest {
         } returns flowOf(value = products)
 
         every {
-            favoriteRepository.getFavoriteIdsFlows()
+            favoriteRepository.getFavoriteIdsFlow()
         } returns flowOf(value = emptySet())
 
         // When

@@ -1,5 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 android {
@@ -33,10 +36,25 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+    implementation(project(":core:core-common"))
+    implementation(project(":core:core-domain"))
+    implementation(project(":core:core-data"))
+
+    implementation(project(":domain:domain-profile"))
+
+    // Retrofit
+    implementation(libs.retrofit)
+
+    // KotlinX
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.coroutines.android)
+
+    // Di
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    // Test
+    testImplementation(libs.mockk)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
