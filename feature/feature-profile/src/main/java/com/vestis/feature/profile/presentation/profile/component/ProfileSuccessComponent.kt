@@ -44,7 +44,7 @@ fun ProfileSuccessComponent(
 }
 
 @Composable
-fun ProfileHeader(
+private fun ProfileHeader(
     state: ProfileState.Success,
     modifier: Modifier = Modifier
 ) {
@@ -78,7 +78,7 @@ fun ProfileHeader(
 }
 
 @Composable
-fun ProfileFavoriteSection(
+private fun ProfileFavoriteSection(
     counter: Int,
     modifier: Modifier = Modifier
 ) {
