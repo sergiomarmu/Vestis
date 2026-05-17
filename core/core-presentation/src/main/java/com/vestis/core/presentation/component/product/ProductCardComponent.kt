@@ -3,7 +3,6 @@ package com.vestis.core.presentation.component.product
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -84,28 +83,31 @@ private fun ProductCardImage(
 ) {
     Box(
         modifier = modifier
-            .fillMaxWidth()
-            .aspectRatio(3f / 4f)
+            .fillMaxWidth(),
+        contentAlignment = Alignment.Center
     ) {
-        if (LocalInspectionMode.current) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f),
-                contentAlignment = Alignment.Center,
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Info,
-                    contentDescription = null
+        Box(
+            modifier = Modifier.padding(12.dp)
+        ) {
+            if (LocalInspectionMode.current) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .aspectRatio(1f),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Info,
+                        contentDescription = null
+                    )
+                }
+            } else {
+                AsyncImage(
+                    model = imageUrl,
+                    contentDescription = title,
+                    contentScale = ContentScale.Fit
                 )
             }
-        } else {
-            AsyncImage(
-                model = imageUrl,
-                contentDescription = title,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Fit
-            )
         }
 
         IconButton(

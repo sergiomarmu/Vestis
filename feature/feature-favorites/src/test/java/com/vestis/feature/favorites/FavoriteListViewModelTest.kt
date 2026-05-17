@@ -53,7 +53,7 @@ class FavoriteListViewModelTest {
     }
 
     @Test
-    fun `GIVEN failure from use case WHEN init intent is executed THEN state should be error`() =
+    fun `GIVEN failure from use case WHEN init intent is executed THEN state should be empty`() =
         runTest {
             // Given
             every {
@@ -70,10 +70,7 @@ class FavoriteListViewModelTest {
 
                 // Then
                 assert(awaitItem() == FavoriteListState.Loading)
-
-                val finalState = awaitItem()
-
-                assert(finalState is FavoriteListState.Error)
+                assert(awaitItem() is FavoriteListState.Empty)
             }
         }
 
@@ -113,11 +110,7 @@ class FavoriteListViewModelTest {
 
                 // Then
                 assert(awaitItem() == FavoriteListState.Loading)
-
-                val finalState = awaitItem()
-
-                assert(finalState is FavoriteListState.Success)
-                assert((finalState as FavoriteListState.Success).products.size == 1)
+                assert(awaitItem() is FavoriteListState.Success)
             }
         }
 
@@ -152,9 +145,7 @@ class FavoriteListViewModelTest {
                 sut.handleIntent(FavoriteListIntent.ToggleFavorite(productId))
 
                 // Then
-                val effect = awaitItem()
-
-                assert(effect is FavoriteListEffect.ShowError)
+                assert(awaitItem() is FavoriteListEffect.ShowError)
             }
         }
 

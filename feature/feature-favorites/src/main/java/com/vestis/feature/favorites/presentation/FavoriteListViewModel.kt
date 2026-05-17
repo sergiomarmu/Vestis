@@ -48,12 +48,7 @@ class FavoriteListViewModel @Inject constructor(
 
                 }
             }.catch {
-                updateState {
-                    FavoriteListState.Error(
-                        message = it.message
-                            ?: "Unknown error occurred"
-                    )
-                }
+                updateState { FavoriteListState.Empty }
             }.launchIn(viewModelScope)
     }
 

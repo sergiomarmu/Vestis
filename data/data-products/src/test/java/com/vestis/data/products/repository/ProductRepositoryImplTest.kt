@@ -143,7 +143,7 @@ class ProductRepositoryImplTest {
             every { productLocalDataSource.observeAll() } returns flowOf(value = emptyList())
 
             // When | Then
-            sut.getProductsFlow(forceNetwork = false).test {
+            sut.getProductsFlow(forceNetwork = true).test {
                 val exception = awaitError()
 
                 assert(exception is DomainException.Network.NoConnection)

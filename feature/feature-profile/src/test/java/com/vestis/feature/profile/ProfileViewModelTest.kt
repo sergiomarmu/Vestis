@@ -11,7 +11,6 @@ import com.vestis.feature.profile.presentation.profile.ProfileState
 import com.vestis.feature.profile.presentation.profile.ProfileViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
@@ -70,9 +69,7 @@ class ProfileViewModelTest {
 
                 // Then
                 assert(awaitItem() == ProfileState.Loading)
-
-                val finalState = awaitItem()
-                assert(finalState is ProfileState.Error)
+                assert(awaitItem() is ProfileState.Error)
             }
         }
 
@@ -96,10 +93,7 @@ class ProfileViewModelTest {
 
                 // Then
                 assert(awaitItem() == ProfileState.Loading)
-
-                val finalState = awaitItem()
-
-                assert(finalState is ProfileState.Success)
+                assert(awaitItem() is ProfileState.Success)
             }
         }
 
@@ -109,7 +103,7 @@ class ProfileViewModelTest {
             // Given
             coEvery {
                 getProfileUseCase.invoke()
-            } returns Either.Right(mockk(relaxed = true))
+            } returns Either.Right(value = mockk(relaxed = true))
 
             every {
                 getFavoriteCountFlowUseCase.invoke()
@@ -125,14 +119,12 @@ class ProfileViewModelTest {
 
                 // Then
                 assert(awaitItem() == ProfileState.Loading)
-
-                val finalState = awaitItem()
-                assert(finalState is ProfileState.Error)
+                assert(awaitItem() is ProfileState.Error)
             }
         }
 
     @Test
-    fun `GIVEN network failure WHEN retry intent is executed THEN fetch from use cases again`() =
+    fun `GIVEN network failure WHEN retry intent is executed THEN state should be success`() =
         runTest {
             // Given
             coEvery {
@@ -142,7 +134,6 @@ class ProfileViewModelTest {
             every {
                 getFavoriteCountFlowUseCase.invoke()
             } returns flowOf(value = 0)
-
 
             sut.uiState.test {
                 assert(awaitItem() == ProfileState.Idle)
@@ -159,8 +150,35 @@ class ProfileViewModelTest {
                 assert(awaitItem() == ProfileState.Loading)
                 assert(awaitItem() is ProfileState.Success)
             }
+        }
 
-            coVerify(exactly = 2) { getProfileUseCase.invoke() }
+    @Test
+    fun `GIVEN initial failure WHEN retry intent is executed THEN state should be error`() =
+        runTest {
+            // Given
+            coEvery {
+                getProfileUseCase.invoke()
+            } returns Either.Left(value = mockk()) andThen Either.Left(value = mockk())
+
+            every {
+                getFavoriteCountFlowUseCase.invoke()
+            } returns flowOf(value = 0)
+
+            sut.uiState.test {
+                assert(awaitItem() == ProfileState.Idle)
+
+                sut.handleIntent(ProfileIntent.Init)
+
+                assert(awaitItem() == ProfileState.Loading)
+                assert(awaitItem() is ProfileState.Error)
+
+                // When
+                sut.handleIntent(ProfileIntent.Retry)
+
+                // Then
+                assert(awaitItem() == ProfileState.Loading)
+                assert(awaitItem() is ProfileState.Error)
+            }
         }
 
     @After

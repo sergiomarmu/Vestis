@@ -1,5 +1,6 @@
 package com.vestis.feature.profile.presentation.profile
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import com.vestis.core.presentation.base.UiEffect
 import com.vestis.core.presentation.base.UiIntent
@@ -11,7 +12,7 @@ sealed interface ProfileState : UiState {
 
     data object Loading : ProfileState
 
-    @Stable
+    @Immutable
     data class Success(
         val userName: String,
         val fullName: String,
@@ -28,11 +29,7 @@ sealed interface ProfileState : UiState {
 sealed interface ProfileIntent : UiIntent {
     data object Init : ProfileIntent
 
-    data object Retry: ProfileIntent
+    data object Retry : ProfileIntent
 }
 
-sealed interface ProfileEffect : UiEffect {
-    data class ShowError(
-        val message: String
-    ) : ProfileEffect
-}
+sealed interface ProfileEffect : UiEffect

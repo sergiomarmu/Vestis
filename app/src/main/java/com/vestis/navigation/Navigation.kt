@@ -6,9 +6,12 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -21,6 +24,8 @@ fun AppNavigationBar(
     val navController = rememberNavController()
     val startDestination = Destination.PRODUCTS
 
+    val snackbarHostState = remember { SnackbarHostState() }
+
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry
         ?.destination
@@ -28,13 +33,15 @@ fun AppNavigationBar(
 
     Scaffold(
         modifier = modifier,
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        },
         bottomBar = {
             NavigationBar(
                 windowInsets = NavigationBarDefaults.windowInsets
             ) {
                 Destination.entries
                     .forEach { destination ->
-
                         val isSelected = currentDestination == destination.route
 
                         NavigationBarItem(
@@ -67,7 +74,9 @@ fun AppNavigationBar(
         AppNavHost(
             navController = navController,
             startDestination = startDestination,
-            modifier = Modifier.padding(paddingValues = contentPadding)
+            snackbarHostState = snackbarHostState,
+            modifier = Modifier
+                .padding(paddingValues = contentPadding)
         )
     }
 }

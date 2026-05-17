@@ -23,7 +23,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@PreviewScreenSizes
 @Composable
 fun VestisApp() {
     AppNavigationBar()
