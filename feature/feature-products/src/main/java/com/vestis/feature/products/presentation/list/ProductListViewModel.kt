@@ -98,7 +98,8 @@ class ProductListViewModel @Inject constructor(
             } catch (t: Throwable) {
                 sendEffect(
                     ProductListEffect.ShowError(
-                        message = t.message ?: "Unknown error"
+                        message = t.message
+                            ?: "Unknown error"
                     )
                 )
             }

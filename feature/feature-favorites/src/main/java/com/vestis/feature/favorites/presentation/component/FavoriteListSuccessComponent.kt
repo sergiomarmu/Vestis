@@ -33,7 +33,7 @@ fun FavoriteListSuccessComponent(
         items(
             items = products,
             key = { it.id },
-            contentType = { "product" }
+            contentType = { "favorite" }
         ) { product ->
             ProductCardComponent(
                 title = product.title,

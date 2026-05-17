@@ -28,13 +28,13 @@ The project is **Modularized** by layers and features to ensure scalability and 
 * **`:app`** ➔ Core orchestrator, dependency injection, and global navigation.
 
 * **`:feature`** ➔ Isolated presentation screens and user flows (MVI / Compose).
-    * **`:feature:products` / `:feature:favorites` / `:feature:profile`**
+    * **`:feature:products` / `:feature:favorite` / `:feature:profile`**
 
 * **`:domain`** ➔ Pure Kotlin layers holding business logic, business entities, and Use Cases.
-    * **`:domain-products` / `:domain-favorites` / `:domain-profile`**
+    * **`:domain-products` / `:domain-favorite` / `:domain-profile`**
 
 * **`:data`** ➔ Infrastructure implementations, API data sources (Retrofit), local caching and error handling.
-    * **`:data-products` / `:data-favorites` / `:data-profile`**
+    * **`:data-products` / `:data-favorite` / `:data-profile`**
 
 * **`:core`** ➔ Shared utilities
     * **`:core-common` / `:core-presentation` / `:core-domain` / `:core-data`**
@@ -46,24 +46,24 @@ graph TB
     subgraph Layer_2 ["2. :feature Presentation Layer"]
         direction TB
         feat_products[":feature:products"]
-        feat_favorites[":feature:favorite"]
+        feat_favorite[":feature:favorite"]
         feat_profile[":feature:profile"]
     end
 
     subgraph Layer_3 ["3. :domain (Business Logic)"]
         direction TB
         domain_products[":products"]
-        domain_favorites[":favorite"]
+        domain_favorite[":favorite"]
         domain_profile[":profile"]
         
-        domain_products --> domain_favorites
-        domain_profile --> domain_favorites
+        domain_products --> domain_favorite
+        domain_profile --> domain_favorite
     end
 
     subgraph Layer_4 ["4. :data (Infrastructure)"]
         direction TB
         data_products[":products"]
-        data_favorites[":favorite"]
+        data_favorite[":favorite"]
         data_profile[":profile"]
     end
 

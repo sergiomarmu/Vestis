@@ -3,6 +3,7 @@
 package com.vestis.feature.profile.presentation.profile
 
 import androidx.lifecycle.viewModelScope
+import com.vestis.core.domain.DomainException
 import com.vestis.core.presentation.base.BaseMviViewModel
 import com.vestis.core.presentation.mapper.toUiMessage
 import com.vestis.domain.favorite.usecase.GetFavoriteCountFlowUseCase
@@ -71,9 +72,18 @@ class ProfileViewModel @Inject constructor(
 
                 }.onEach { newState ->
                     updateState { newState }
-                }.catch { error ->
+                }.catch {
+                    val message = if (it is DomainException) {
+                        it.toUiMessage()
+                    } else {
+                        it.message
+                    }
+
                     updateState {
-                        ProfileState.Error(message = error.message ?: "Unknown error occurred")
+                        ProfileState.Error(
+                            message = message
+                                ?: "Unknown error occurred"
+                        )
                     }
                 }
             }.launchIn(viewModelScope)
