@@ -4,19 +4,23 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.vestis.feature.profile.R
 import com.vestis.feature.profile.presentation.profile.ProfileState
 import com.vestis.feature.profile.presentation.profile.component.parameterprovider.ProfileSuccessStateParameterProvider
 
@@ -48,7 +52,6 @@ private fun ProfileHeader(
     state: ProfileState.Success,
     modifier: Modifier = Modifier
 ) {
-
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -56,23 +59,23 @@ private fun ProfileHeader(
     ) {
         Icon(
             imageVector = Icons.Filled.AccountCircle,
-            contentDescription = "User avatar",
+            contentDescription = stringResource(id = R.string.profile_user_avatar_content_description),
             modifier = Modifier.size(64.dp),
         )
 
         Text(
             text = state.userName,
-            fontSize = 18.sp,
+            style = MaterialTheme.typography.titleLarge
         )
 
         Text(
             text = state.fullName,
-            fontSize = 26.sp,
+            style = MaterialTheme.typography.headlineMedium
         )
 
         Text(
             text = state.email,
-            fontSize = 18.sp,
+            style = MaterialTheme.typography.titleLarge
         )
     }
 }
@@ -88,13 +91,13 @@ private fun ProfileFavoriteSection(
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Text(
-            text = "Favorites",
-            fontSize = 18.sp,
+            text = stringResource(id = R.string.profile_favorites_label),
+            style = MaterialTheme.typography.titleLarge
         )
 
         Text(
             text = counter.toString(),
-            fontSize = 18.sp,
+            style = MaterialTheme.typography.titleLarge
         )
     }
 }

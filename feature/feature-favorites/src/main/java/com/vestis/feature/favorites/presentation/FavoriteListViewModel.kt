@@ -2,6 +2,7 @@ package com.vestis.feature.favorites.presentation
 
 import androidx.lifecycle.viewModelScope
 import com.vestis.core.presentation.base.BaseMviViewModel
+import com.vestis.core.presentation.utils.text.asUiText
 import com.vestis.domain.favorite.usecase.ToggleFavoriteUseCase
 import com.vestis.domain.products.usecase.GetFavoriteProductsFlowUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -63,7 +64,7 @@ class FavoriteListViewModel @Inject constructor(
             } catch (t: Throwable) {
                 sendEffect(
                     FavoriteListEffect.ShowError(
-                        message = t.message ?: "Unknown error"
+                        text = t.asUiText()
                     )
                 )
             }

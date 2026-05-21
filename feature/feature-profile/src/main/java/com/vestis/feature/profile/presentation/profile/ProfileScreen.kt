@@ -41,7 +41,7 @@ private fun ProfileScreenContent(
         )
 
         is ProfileState.Error -> ProfileErrorComponent(
-            message = state.message,
+            message = state.text.asString(),
             onIntent = { onIntent(it) },
             modifier = modifier,
         )

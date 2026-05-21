@@ -15,20 +15,22 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalInspectionMode
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import com.vestis.core.presentation.R
 import com.vestis.core.presentation.component.product.parameterprovider.ProductCardPreviewData
 import com.vestis.core.presentation.component.product.parameterprovider.ProductListParameterProvider
+import com.vestis.core.presentation.utils.formatter.toFormattedPrice
 import com.vestis.core.presentation.ui.theme.Gray400
 import com.vestis.core.presentation.ui.theme.Gray500
 import com.vestis.core.presentation.ui.theme.Gray900
@@ -130,9 +132,9 @@ private fun ProductCardImage(
                 else
                     Icons.Outlined.FavoriteBorder,
                 contentDescription = if (isFavorite)
-                    "Remove from favorites"
+                    stringResource(id = R.string.core_remove_content_description)
                 else
-                    "Add to favorites",
+                    stringResource(id = R.string.core_add_content_description),
                 modifier = Modifier.size(32.dp),
             )
         }
@@ -151,23 +153,21 @@ private fun ProductCardInfo(
     ) {
         Text(
             text = category.uppercase(),
-            fontSize = 12.sp,
+            style = MaterialTheme.typography.bodySmall,
             color = Gray500,
             modifier = Modifier.padding(bottom = 4.dp)
         )
 
         Text(
             text = title,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.SemiBold,
+            style = MaterialTheme.typography.bodyMedium,
             color = Gray900,
             modifier = Modifier.padding(bottom = 4.dp)
         )
 
         Text(
-            text = "$${String.format("%.2f", price)}",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
+            text = price.toFormattedPrice(),
+            style = MaterialTheme.typography.labelLarge,
             color = Gray900
         )
     }

@@ -1,10 +1,10 @@
 package com.vestis.feature.profile.presentation.profile
 
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
 import com.vestis.core.presentation.base.UiEffect
 import com.vestis.core.presentation.base.UiIntent
 import com.vestis.core.presentation.base.UiState
+import com.vestis.core.presentation.utils.text.UiText
 
 sealed interface ProfileState : UiState {
 
@@ -20,9 +20,8 @@ sealed interface ProfileState : UiState {
         val favouriteCount: Int
     ) : ProfileState
 
-
     data class Error(
-        val message: String
+        val text: UiText
     ) : ProfileState
 }
 

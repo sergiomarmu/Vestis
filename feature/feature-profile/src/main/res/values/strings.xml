@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_user_avatar_content_description">User avatar</string>
+    <string name="profile_favorites_label">Favorites</string>
+    <string name="profile_retry_button">Try again</string>
+    <string name="profile_error_state_icon_description">Error alert icon</string>
+</resources>

@@ -3,9 +3,8 @@
 package com.vestis.feature.products.presentation.list
 
 import androidx.lifecycle.viewModelScope
-import com.vestis.core.domain.DomainException
 import com.vestis.core.presentation.base.BaseMviViewModel
-import com.vestis.core.presentation.mapper.toUiMessage
+import com.vestis.core.presentation.utils.text.asUiText
 import com.vestis.domain.favorite.usecase.ToggleFavoriteUseCase
 import com.vestis.domain.products.usecase.GetProductsFlowUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -63,16 +62,9 @@ class ProductListViewModel @Inject constructor(
 
                     }
                 }.catch {
-                    val message = if (it is DomainException) {
-                        it.toUiMessage()
-                    } else {
-                        it.message
-                    }
-
                     updateState {
                         ProductListState.Error(
-                            message = message
-                                ?: "Unknown error occurred"
+                            text = it.asUiText()
                         )
                     }
                 }
@@ -98,8 +90,7 @@ class ProductListViewModel @Inject constructor(
             } catch (t: Throwable) {
                 sendEffect(
                     ProductListEffect.ShowError(
-                        message = t.message
-                            ?: "Unknown error"
+                        text = t.asUiText()
                     )
                 )
             }

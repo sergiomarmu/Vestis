@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="core_remove_content_description">Remove from favorites</string>
+    <string name="core_add_content_description">Add to favorites</string>
+    <string name="core_error_no_internet">No internet connection</string>
+    <string name="core_error_invalid_response">Something went wrong, try again</string>
+    <string name="core_error_unexpected">Something went wrong</string>
+    <string name="core_unknown_error_occurred">Unknown error occurred</string>
+    <string name="core_unknown_error">Unknown error</string>
+</resources>

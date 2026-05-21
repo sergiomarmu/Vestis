@@ -1,6 +1,5 @@
 package com.vestis.navigation
 
-import FavoritesListScreen
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -10,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.vestis.feature.favorites.presentation.FavoritesListScreen
 import com.vestis.feature.products.presentation.list.ProductListScreen
 import com.vestis.feature.profile.presentation.profile.ProfileScreen
 

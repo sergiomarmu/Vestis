@@ -3,6 +3,7 @@ package com.vestis.feature.favorites.presentation
 import com.vestis.core.presentation.base.UiEffect
 import com.vestis.core.presentation.base.UiIntent
 import com.vestis.core.presentation.base.UiState
+import com.vestis.core.presentation.utils.text.UiText
 import com.vestis.domain.products.model.ProductModel
 import kotlinx.collections.immutable.PersistentList
 
@@ -31,6 +32,6 @@ sealed interface FavoriteListIntent : UiIntent {
 sealed interface FavoriteListEffect : UiEffect {
 
     data class ShowError(
-        val message: String
+        val text: UiText
     ) : FavoriteListEffect
 }

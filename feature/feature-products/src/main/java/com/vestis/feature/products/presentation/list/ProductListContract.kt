@@ -3,6 +3,7 @@ package com.vestis.feature.products.presentation.list
 import com.vestis.core.presentation.base.UiEffect
 import com.vestis.core.presentation.base.UiIntent
 import com.vestis.core.presentation.base.UiState
+import com.vestis.core.presentation.utils.text.UiText
 import com.vestis.domain.products.model.ProductModel
 import kotlinx.collections.immutable.PersistentList
 
@@ -19,7 +20,7 @@ sealed interface ProductListState : UiState {
     data object Empty : ProductListState
 
     data class Error(
-        val message: String
+        val text: UiText
     ) : ProductListState
 }
 
@@ -35,6 +36,6 @@ sealed interface ProductListIntent : UiIntent {
 
 sealed interface ProductListEffect : UiEffect {
     data class ShowError(
-        val message: String
+        val text: UiText
     ) : ProductListEffect
 }

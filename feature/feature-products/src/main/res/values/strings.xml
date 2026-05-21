@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="products_empty_message">No products available</string>
+    <string name="products_retry_button">Try again</string>
+    <string name="products_empty_state_icon_description">Empty list indicator icon</string>
+    <string name="products_error_state_icon_description">Error alert icon</string>
+</resources>

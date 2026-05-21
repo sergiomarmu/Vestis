@@ -3,9 +3,10 @@
 package com.vestis.feature.profile.presentation.profile
 
 import androidx.lifecycle.viewModelScope
-import com.vestis.core.domain.DomainException
 import com.vestis.core.presentation.base.BaseMviViewModel
-import com.vestis.core.presentation.mapper.toUiMessage
+import com.vestis.core.presentation.mapper.toUiMessageRes
+import com.vestis.core.presentation.utils.text.UiText
+import com.vestis.core.presentation.utils.text.asUiText
 import com.vestis.domain.favorite.usecase.GetFavoriteCountFlowUseCase
 import com.vestis.domain.profile.usecase.GetProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -57,7 +58,7 @@ class ProfileViewModel @Inject constructor(
                     userResult.fold(
                         ifLeft = {
                             ProfileState.Error(
-                                message = it.toUiMessage()
+                                text = UiText.StringResource(resId = it.toUiMessageRes())
                             )
                         },
                         ifRight = {
@@ -73,16 +74,9 @@ class ProfileViewModel @Inject constructor(
                 }.onEach { newState ->
                     updateState { newState }
                 }.catch {
-                    val message = if (it is DomainException) {
-                        it.toUiMessage()
-                    } else {
-                        it.message
-                    }
-
                     updateState {
                         ProfileState.Error(
-                            message = message
-                                ?: "Unknown error occurred"
+                            text = it.asUiText()
                         )
                     }
                 }
