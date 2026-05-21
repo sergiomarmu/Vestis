@@ -1,7 +1,7 @@
 package com.vestis.data.favorite.local.datasource
 
-import com.vestis.data.favorite.local.dao.FavoriteDao
-import com.vestis.data.favorite.local.entity.FavoriteEntity
+import com.vestis.core.data.local.room.dao.FavoriteDao
+import com.vestis.core.data.local.room.entity.FavoriteEntity
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 

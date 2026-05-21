@@ -4,8 +4,9 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
-import com.vestis.data.favorite.local.db.FavoriteRoomDatabase
-import com.vestis.data.favorite.local.entity.FavoriteEntity
+import com.vestis.core.data.local.room.AppRoomDatabase
+import com.vestis.core.data.local.room.dao.FavoriteDao
+import com.vestis.core.data.local.room.entity.FavoriteEntity
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -17,13 +18,13 @@ class FavoriteDaoTest {
 
     private lateinit var sut: FavoriteDao
 
-    private lateinit var database: FavoriteRoomDatabase
+    private lateinit var database: AppRoomDatabase
 
     @Before
     fun setUp() {
         database = Room.inMemoryDatabaseBuilder(
             context = ApplicationProvider.getApplicationContext(),
-            klass = FavoriteRoomDatabase::class.java,
+            klass = AppRoomDatabase::class.java,
         ).allowMainThreadQueries()
             .build()
 

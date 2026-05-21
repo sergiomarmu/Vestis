@@ -43,6 +43,11 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.retrofit.kotlinx.serialization)
 
+    // Room
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
+    implementation(libs.room.ktx)
+
     // KotlinX
     implementation(libs.kotlinx.serialization.json)
 

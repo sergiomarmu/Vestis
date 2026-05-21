@@ -4,8 +4,9 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
-import com.vestis.data.products.local.db.ProductRoomDatabase
-import com.vestis.data.products.local.entity.ProductEntity
+import com.vestis.core.data.local.room.AppRoomDatabase
+import com.vestis.core.data.local.room.dao.ProductDao
+import com.vestis.core.data.local.room.entity.ProductEntity
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -17,13 +18,13 @@ class ProductDaoTest {
 
     private lateinit var sut: ProductDao
 
-    private lateinit var database: ProductRoomDatabase
+    private lateinit var database: AppRoomDatabase
 
     @Before
     fun setUp() {
         database = Room.inMemoryDatabaseBuilder(
             context = ApplicationProvider.getApplicationContext(),
-            klass = ProductRoomDatabase::class.java,
+            klass = AppRoomDatabase::class.java,
         ).allowMainThreadQueries()
             .build()
 

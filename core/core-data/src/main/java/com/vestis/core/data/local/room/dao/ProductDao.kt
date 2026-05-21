@@ -1,11 +1,11 @@
-package com.vestis.data.products.local.dao
+package com.vestis.core.data.local.room.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.vestis.data.products.local.entity.ProductEntity
-import com.vestis.data.products.local.entity.ProductEntity.Companion.TABLE_NAME
+import com.vestis.core.data.local.room.entity.ProductEntity
+import com.vestis.core.data.local.room.entity.ProductEntity.Companion.TABLE_NAME
 import kotlinx.coroutines.flow.Flow
 
 @Dao

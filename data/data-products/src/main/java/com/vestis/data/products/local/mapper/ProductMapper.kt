@@ -1,6 +1,6 @@
 package com.vestis.data.products.local.mapper
 
-import com.vestis.data.products.local.entity.ProductEntity
+import com.vestis.core.data.local.room.entity.ProductEntity
 import com.vestis.data.products.network.dto.ProductDTO
 import com.vestis.domain.products.model.ProductModel
 

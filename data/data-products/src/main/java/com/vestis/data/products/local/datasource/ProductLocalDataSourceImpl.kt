@@ -1,7 +1,7 @@
 package com.vestis.data.products.local.datasource
 
-import com.vestis.data.products.local.dao.ProductDao
-import com.vestis.data.products.local.entity.ProductEntity
+import com.vestis.core.data.local.room.dao.ProductDao
+import com.vestis.core.data.local.room.entity.ProductEntity
 import javax.inject.Inject
 
 class ProductLocalDataSourceImpl @Inject constructor(

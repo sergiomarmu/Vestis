@@ -1,6 +1,6 @@
 package com.vestis.data.favorite.local.datasource
 
-import com.vestis.data.favorite.local.entity.FavoriteEntity
+import com.vestis.core.data.local.room.entity.FavoriteEntity
 import kotlinx.coroutines.flow.Flow
 
 interface FavoriteLocalDataSource {

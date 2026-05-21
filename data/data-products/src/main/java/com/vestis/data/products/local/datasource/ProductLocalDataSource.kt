@@ -1,6 +1,6 @@
 package com.vestis.data.products.local.datasource
 
-import com.vestis.data.products.local.entity.ProductEntity
+import com.vestis.core.data.local.room.entity.ProductEntity
 import kotlinx.coroutines.flow.Flow
 
 interface ProductLocalDataSource {

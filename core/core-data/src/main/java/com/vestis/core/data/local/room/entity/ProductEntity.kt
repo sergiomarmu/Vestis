@@ -1,11 +1,10 @@
-package com.vestis.data.products.local.entity
+package com.vestis.core.data.local.room.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.vestis.data.products.local.entity.ProductEntity.Companion.TABLE_NAME
 
-@Entity(tableName = TABLE_NAME)
+@Entity(tableName = ProductEntity.TABLE_NAME)
 data class ProductEntity(
     @PrimaryKey
     @ColumnInfo(name = COLUMN_ID)

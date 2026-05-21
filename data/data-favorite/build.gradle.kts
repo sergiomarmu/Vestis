@@ -53,11 +53,6 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
-    // Room
-    implementation(libs.room.runtime)
-    ksp(libs.room.compiler)
-    implementation(libs.room.ktx)
-
     // Test
     testImplementation(libs.turbine)
     testImplementation(libs.mockk)
