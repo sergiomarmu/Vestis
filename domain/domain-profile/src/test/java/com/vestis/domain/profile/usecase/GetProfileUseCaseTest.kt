@@ -1,7 +1,5 @@
 package com.vestis.domain.profile.usecase
 
-import com.vestis.domain.favorite.repository.FavoriteRepository
-import com.vestis.domain.favorite.usecase.ToggleFavoriteUseCase
 import com.vestis.domain.profile.repository.ProfileRepository
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery

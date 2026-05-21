@@ -4,6 +4,7 @@ package com.vestis.feature.products
 
 import app.cash.turbine.test
 import com.vestis.core.domain.DomainException
+import com.vestis.domain.favorite.usecase.GetFavoriteIdsFlowUseCase
 import com.vestis.domain.favorite.usecase.ToggleFavoriteUseCase
 import com.vestis.domain.products.model.ProductModel
 import com.vestis.domain.products.usecase.GetProductsFlowUseCase
@@ -38,6 +39,9 @@ class ProductListViewModelTest {
     private lateinit var getProductsFlowUseCase: GetProductsFlowUseCase
 
     @MockK
+    private lateinit var getFavoriteIdsFlowUseCase: GetFavoriteIdsFlowUseCase
+
+    @MockK
     private lateinit var toggleFavoriteUseCase: ToggleFavoriteUseCase
 
     private val testDispatcher = StandardTestDispatcher()
@@ -49,6 +53,7 @@ class ProductListViewModelTest {
 
         sut = ProductListViewModel(
             getProductsFlowUseCase = getProductsFlowUseCase,
+            getFavoriteIdsFlowUseCase = getFavoriteIdsFlowUseCase,
             toggleFavoriteUseCase = toggleFavoriteUseCase
         )
     }
@@ -63,6 +68,10 @@ class ProductListViewModelTest {
                 throw DomainException.Network.NoConnection()
             }
 
+            every {
+                getFavoriteIdsFlowUseCase.invoke()
+            } returns flowOf(value = emptySet())
+
             sut.uiState.test {
                 assert(awaitItem() == ProductListState.Idle)
 
@@ -72,8 +81,7 @@ class ProductListViewModelTest {
                 // Then
                 assert(awaitItem() == ProductListState.Loading)
 
-                val finalState = awaitItem()
-                assert(finalState is ProductListState.Error)
+                assert(awaitItem() is ProductListState.Error)
             }
         }
 
@@ -84,6 +92,10 @@ class ProductListViewModelTest {
             every {
                 getProductsFlowUseCase.invoke(forceNetwork = false)
             } returns flowOf(value = emptyList())
+
+            every {
+                getFavoriteIdsFlowUseCase.invoke()
+            } returns flowOf(value = emptySet())
 
             sut.uiState.test {
                 assert(awaitItem() == ProductListState.Idle)
@@ -101,9 +113,32 @@ class ProductListViewModelTest {
     fun `GIVEN success from use case WHEN init intent is executed THEN state should be success`() =
         runTest {
             // Given
+            val products = listOf(
+                ProductModel(
+                    id = 1,
+                    title = "Test Product",
+                    price = 19.99f,
+                    category = "Men's clothes",
+                    imageUrl = "url",
+                    isFavorite = false
+                ),
+                ProductModel(
+                    id = 2,
+                    title = "Test Product2",
+                    price = 19.99f,
+                    category = "Women's clothes",
+                    imageUrl = "url",
+                    isFavorite = true
+                )
+            )
+
             every {
                 getProductsFlowUseCase.invoke(forceNetwork = false)
-            } returns flowOf(value = listOf(mockk<ProductModel>(relaxed = true)))
+            } returns flowOf(value = products)
+
+            every {
+                getFavoriteIdsFlowUseCase.invoke()
+            } returns flowOf(value = setOf(2))
 
             sut.uiState.test {
                 assert(awaitItem() == ProductListState.Idle)
@@ -113,7 +148,13 @@ class ProductListViewModelTest {
 
                 // Then
                 assert(awaitItem() == ProductListState.Loading)
-                assert(awaitItem() is ProductListState.Success)
+
+                val successState = awaitItem()
+                assert(successState is ProductListState.Success)
+
+                val processedProducts = (successState as ProductListState.Success)
+                assert(processedProducts.products.size == 2)
+                assert(processedProducts.products[1].isFavorite)
             }
         }
 
@@ -128,6 +169,10 @@ class ProductListViewModelTest {
             every {
                 getProductsFlowUseCase.invoke(forceNetwork = true)
             } returns flowOf(value = listOf(mockk<ProductModel>(relaxed = true)))
+
+            every {
+                getFavoriteIdsFlowUseCase.invoke()
+            } returns flowOf(value = emptySet())
 
             sut.uiState.test {
                 assert(awaitItem() == ProductListState.Idle)
@@ -157,6 +202,10 @@ class ProductListViewModelTest {
             every {
                 getProductsFlowUseCase.invoke(forceNetwork = true)
             } returns flow { throw DomainException.Network.NoConnection() }
+
+            every {
+                getFavoriteIdsFlowUseCase.invoke()
+            } returns flowOf(value = emptySet())
 
             sut.uiState.test {
                 assert(awaitItem() == ProductListState.Idle)

@@ -3,9 +3,10 @@
 package com.vestis.feature.favorites
 
 import app.cash.turbine.test
+import com.vestis.domain.favorite.usecase.GetFavoriteIdsFlowUseCase
 import com.vestis.domain.favorite.usecase.ToggleFavoriteUseCase
 import com.vestis.domain.products.model.ProductModel
-import com.vestis.domain.products.usecase.GetFavoriteProductsFlowUseCase
+import com.vestis.domain.products.usecase.GetProductsFlowUseCase
 import com.vestis.feature.favorites.presentation.FavoriteListEffect
 import com.vestis.feature.favorites.presentation.FavoriteListIntent
 import com.vestis.feature.favorites.presentation.FavoriteListState
@@ -15,7 +16,6 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
@@ -34,7 +34,10 @@ class FavoriteListViewModelTest {
     private lateinit var sut: FavoriteListViewModel
 
     @MockK
-    private lateinit var getFavoriteProductsFlowUseCase: GetFavoriteProductsFlowUseCase
+    private lateinit var getProductsFlowUseCase: GetProductsFlowUseCase
+
+    @MockK
+    private lateinit var getFavoriteIdsFlowUseCase: GetFavoriteIdsFlowUseCase
 
     @MockK
     private lateinit var toggleFavoriteUseCase: ToggleFavoriteUseCase
@@ -47,7 +50,8 @@ class FavoriteListViewModelTest {
         Dispatchers.setMain(testDispatcher)
 
         sut = FavoriteListViewModel(
-            getFavoriteProductsFlowUseCase = getFavoriteProductsFlowUseCase,
+            getProductsFlowUseCase = getProductsFlowUseCase,
+            getFavoriteIdsFlowUseCase = getFavoriteIdsFlowUseCase,
             toggleFavoriteUseCase = toggleFavoriteUseCase
         )
     }
@@ -57,10 +61,14 @@ class FavoriteListViewModelTest {
         runTest {
             // Given
             every {
-                getFavoriteProductsFlowUseCase.invoke()
+                getProductsFlowUseCase.invoke(forceNetwork = false)
             } returns flow {
                 throw Exception("Error fetching favorites")
             }
+
+            every {
+                getFavoriteIdsFlowUseCase.invoke()
+            } returns flowOf(value = emptySet())
 
             sut.uiState.test {
                 assert(awaitItem() == FavoriteListState.Idle)
@@ -79,8 +87,12 @@ class FavoriteListViewModelTest {
         runTest {
             // Given
             every {
-                getFavoriteProductsFlowUseCase.invoke()
+                getProductsFlowUseCase.invoke(forceNetwork = false)
             } returns flowOf(value = emptyList())
+
+            every {
+                getFavoriteIdsFlowUseCase.invoke()
+            } returns flowOf(value = emptySet())
 
             sut.uiState.test {
                 assert(awaitItem() == FavoriteListState.Idle)
@@ -98,9 +110,32 @@ class FavoriteListViewModelTest {
     fun `GIVEN success from use case WHEN init intent is executed THEN state should be success`() =
         runTest {
             // Given
+            val products = listOf(
+                ProductModel(
+                    id = 1,
+                    title = "Test Product",
+                    price = 19.99f,
+                    category = "Men's clothes",
+                    imageUrl = "url",
+                    isFavorite = true
+                ),
+                ProductModel(
+                    id = 2,
+                    title = "Test Product2",
+                    price = 19.99f,
+                    category = "Women's clothes",
+                    imageUrl = "url",
+                    isFavorite = false
+                )
+            )
+
             every {
-                getFavoriteProductsFlowUseCase.invoke()
-            } returns flowOf(value = listOf(mockk<ProductModel>(relaxed = true)))
+                getProductsFlowUseCase.invoke(forceNetwork = false)
+            } returns flowOf(value = products)
+
+            every {
+                getFavoriteIdsFlowUseCase.invoke()
+            } returns flowOf(value = setOf(1))
 
             sut.uiState.test {
                 assert(awaitItem() == FavoriteListState.Idle)
@@ -110,7 +145,13 @@ class FavoriteListViewModelTest {
 
                 // Then
                 assert(awaitItem() == FavoriteListState.Loading)
-                assert(awaitItem() is FavoriteListState.Success)
+
+                val successState = awaitItem()
+                assert(successState is FavoriteListState.Success)
+
+                val processedProducts = (successState as FavoriteListState.Success)
+                assert(processedProducts.products.size == 1)
+                assert(processedProducts.products[0].isFavorite)
             }
         }
 

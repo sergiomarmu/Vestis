@@ -5,6 +5,7 @@ package com.vestis.feature.products.presentation.list
 import androidx.lifecycle.viewModelScope
 import com.vestis.core.presentation.base.BaseMviViewModel
 import com.vestis.core.presentation.utils.text.asUiText
+import com.vestis.domain.favorite.usecase.GetFavoriteIdsFlowUseCase
 import com.vestis.domain.favorite.usecase.ToggleFavoriteUseCase
 import com.vestis.domain.products.usecase.GetProductsFlowUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,6 +13,7 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -22,6 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductListViewModel @Inject constructor(
     private val getProductsFlowUseCase: GetProductsFlowUseCase,
+    private val getFavoriteIdsFlowUseCase: GetFavoriteIdsFlowUseCase,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
 ) : BaseMviViewModel<ProductListState, ProductListIntent, ProductListEffect>(
     initialState = ProductListState.Idle
@@ -50,7 +53,14 @@ class ProductListViewModel @Inject constructor(
             .flatMapLatest { forceNetwork ->
                 getProductsFlowUseCase.invoke(
                     forceNetwork = forceNetwork
-                ).onEach {
+                ).combine(
+                    flow = getFavoriteIdsFlowUseCase.invoke()
+                ) { products, favIds ->
+                    products
+                        .map { product ->
+                            product.copy(isFavorite = product.id in favIds)
+                        }
+                }.onEach {
                     if (it.isEmpty()) {
                         updateState { ProductListState.Empty }
                     } else {

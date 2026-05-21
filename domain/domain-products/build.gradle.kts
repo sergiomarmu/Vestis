@@ -38,8 +38,6 @@ dependencies {
     implementation(project(":core:core-common"))
     implementation(project(":core:core-domain"))
 
-    implementation(project(":domain:domain-favorite"))
-
     // KotlinX
     implementation(libs.kotlinx.coroutines.android)
 
