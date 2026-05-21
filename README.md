@@ -55,9 +55,6 @@ graph TB
         domain_products[":products"]
         domain_favorite[":favorite"]
         domain_profile[":profile"]
-        
-        domain_products --> domain_favorite
-        domain_profile --> domain_favorite
     end
 
     subgraph Layer_4 ["4. :data (Infrastructure)"]
